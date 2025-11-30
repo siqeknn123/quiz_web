@@ -120,7 +120,19 @@ def get_quizes():
     close()
     return quizes
     
-
+def get_question_after(quiz_id=1, question_id=0):
+   '''Повертає наступне питання до вибраної вікторини'''
+   open()
+   cursor.execute("""SELECT questions.id, questions.quetion, questions.answer, questions.wrong1, questions.wrong2, questions.wrong3
+                  FROM questions, quiz_questions
+                  WHERE quiz_questions.quiz_id = ? AND
+                  quiz_questions.question_id > ? AND
+                  quiz_questions.question_id = questions.id
+                  ORDER BY quiz_questions.id""", (quiz_id, question_id))
+  
+   question = cursor.fetchone()
+   close()
+   return question
 
 def main():
     #create_tables()
