@@ -3,11 +3,29 @@
 {% block content %}
 <h1>Обери собі вікторину</h1>
 <form method="POST" action="/">
-    <select name="quiz">
+    <select class="form-select form-select-lg mb-3" name="quiz" id="quizSelect">
         {% for id, title, description in quizes_list %}
-        <option value="{{ id }}">{{ title }}</option>
+        <option value="{{ id }}" data-description="{{ description }}">{{ title }}</option>
         {% endfor %} 
     </select>
-    <button type="submit">Обрати</button>
+    <p id="quizDescription" class="text-muted"></p>
+    <button type="submit" class="btn btn-secondary">Обрати</button>
 </form>
+
+<script>
+const select = document.getElementById("quizSelect");
+const descriptionBlock = document.getElementById("quizDescription");
+
+
+function updateDescription() {
+   const selectedOption = select.options[select.selectedIndex];
+   descriptionBlock.textContent =
+       selectedOption.dataset.description || "";
+}
+
+
+updateDescription();
+select.addEventListener("change", updateDescription);
+</script>
+
 {% endblock %}

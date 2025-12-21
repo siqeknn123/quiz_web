@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Результати{% endblock%}
+{% block content %}
+<h4>Правильних відповідей: <span class="badge text-bg-success">{{ right }}</span></h4>
+<h4>Неправильних відповідей: <span class="badge text-bg-danger">{{ wrong }}</span></h4>
+<h4>Всього відповідей: <span class="badge text-bg-secondary">{{ total }}</span></h4>
+{% endblock %}

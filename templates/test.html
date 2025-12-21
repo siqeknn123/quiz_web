@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестування</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Тестування{% endblock %}
+{% block content %}
+<form method="POST", action="/test">
+    <input type="hidden" value="{{ question_id }}" name = "quest_id">
     <h1>{{ quest }}</h1>
-        {% for answer in ans_list %}
-        <input type = "radio" value = "{{answer}}">{{answer}}
-        {% endfor %}
-        <button type = "submit" class="btn btn-secondary">Відповісти</button>
-</body>
-</html>
+    {% for answer in ans_list %}
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="ans" value="{{ answer }}"
+        id="radioDefault1">
+        <label class="form-check-label" for="radioDefault1">
+            {{ answer }}
+        </label>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-outline-success">Відповісти</button>
+</form>
+{% endblock %}
