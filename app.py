@@ -49,8 +49,12 @@ def test():
 
 @app.route("/result")
 def result():
-    return "<h1>Result</h1>"
-
+    result = render_template("result.html",
+                           right=session["correct_ans"],
+                           wrong=session["wrong_ans"],
+                           total=session["total"])
+    session.clear()
+    return result()
 
 
 

@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Обери вікторину</title>
-</head>
-<body>
-    <h1>Обери собі вікторину</h1>
-    <form method="POST" action="/">
-        <select name="quiz">
-            {% for id, title, description in quizes_list %}
-            <option value="{{ id }}">{{ title }}</option>
-            {% endfor %} 
-        </select>
-        <button type="submit">Обрати</button>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Обрати Вікторину{% endblock %}
+{% block content %}
+<h1>Обери собі вікторину</h1>
+<form method="POST" action="/">
+    <select name="quiz">
+        {% for id, title, description in quizes_list %}
+        <option value="{{ id }}">{{ title }}</option>
+        {% endfor %} 
+    </select>
+    <button type="submit">Обрати</button>
+</form>
+{% endblock %}
