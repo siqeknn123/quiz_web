@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Додавання питання{% endblock %}
+{% block content %}
+<form action="/create-question" method="POST">
+    <h1>Додай Запитання</h1>
+    <select name="quiz_id" class="form-select form-select-lg mb-3" aria-label="Large select example">
+        {% for id, title, discription in quizes_list %}
+        <option value="{{ id }}">{{ title }}</option>
+        {% endfor %}
+    </select>
+    <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Запитання</span>
+        <input type="text" name="question[]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+    </div>
+    <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Правильна відповідь</span>
+        <input type="text" name="question[]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+    </div>
+    <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Неправильна відповідь</span>
+        <input type="text" name="question[]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+    </div>
+    <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Неправильна відповідь</span>
+        <input type="text" name="question[]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+    </div><div class="input-group input-group-lg mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Неправильна відповідь</span>
+        <input type="text" name="question[]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+    </div>
+    <button type="submit" class="btn btn-outline-succes">Додати</button>
+</form>
+{% endblock %}
