@@ -3,29 +3,34 @@
 {% block content %}
 <h1>Обери собі вікторину</h1>
 <form method="POST" action="/">
+    <div class="input-group input-group-lg my-3">
+        <span class="input-group-text" id="inputGroup-sizing-lg">Введіть ім'я</span>
+        <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg" name="name" required>
+    </div>
     <select class="form-select form-select-lg mb-3" name="quiz" id="quizSelect">
         {% for id, title, description in quizes_list %}
         <option value="{{ id }}" data-description="{{ description }}">{{ title }}</option>
-        {% endfor %} 
+        {% endfor %}
     </select>
     <p id="quizDescription" class="text-muted"></p>
     <button type="submit" class="btn btn-secondary">Обрати</button>
 </form>
 
 <script>
-const select = document.getElementById("quizSelect");
-const descriptionBlock = document.getElementById("quizDescription");
+    const select = document.getElementById("quizSelect");
+    const descriptionBlock = document.getElementById("quizDescription");
 
 
-function updateDescription() {
-   const selectedOption = select.options[select.selectedIndex];
-   descriptionBlock.textContent =
-       selectedOption.dataset.description || "";
-}
+    function updateDescription() {
+        const selectedOption = select.options[select.selectedIndex];
+        descriptionBlock.textContent =
+            selectedOption.dataset.description || "";
+    }
 
 
-updateDescription();
-select.addEventListener("change", updateDescription);
+    updateDescription();
+    select.addEventListener("change", updateDescription);
 </script>
 
 {% endblock %}

@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Тестування{% endblock %}
 {% block content %}
-<form method="POST", action="/test">
-    <input type="hidden" value="{{ question_id }}" name = "quest_id">
+<form method="POST" , action="/test">
     <h1>{{ quest }}</h1>
+    <input type="hidden" value="{{ question_id }}" name="quest_id">
     {% for answer in ans_list %}
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="ans" value="{{ answer }}"
-        id="radioDefault1">
-        <label class="form-check-label" for="radioDefault1">
+    <div class="form-check big-radio">
+        <input class="form-check-input" type="radio"  style="transform: scale(1.5);" name="ans" id="radio{{ loop.index }}" value="{{ answer }}">
+        <label class="form-check-label" for="radio{{ loop.index }}">
             {{ answer }}
         </label>
     </div>

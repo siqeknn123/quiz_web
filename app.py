@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from db.crud import get_quizes, get_question_after, check_right_answer, create_quiz_db, create_question_by_quiz, add_link
+from db.crud import get_quizes, get_question_after, check_right_answer, create_quiz_db, create_question_by_quiz, add_link, create_table_results, add_result
 from random import shuffle
 
 app = Flask(__name__)
@@ -39,7 +39,9 @@ def index():
         return render_template("index.html", quizes_list=quizes)
     else: # якщо метод POST
         quiz_id = request.form.get("quiz") # отримуємо номер вибраної вікторини
+        name = request.form.get("name")
         start_session(quiz_id) # створює сессію
+        session['name']= name
         return redirect(url_for('test')) # перенаправлення на test
 
 # сторінка з тестуванням
@@ -64,10 +66,16 @@ def test():
 
 @app.route("/result")
 def result():
+    correct = session['correct_ans']
+    wrong = session['wrong_ans']
+    total = session['total']
+    quiz_id = session['quiz_id']
+    name = session['name']
+    add_result(name, correct, wrong, quiz_id, total)
     result = render_template("result.html",
-                           right=session["correct_ans"],
-                           wrong=session["wrong_ans"],
-                           total=session["total"])
+                           right=correct,
+                           wrong=wrong,
+                           total=total)
     session.clear()
     return result
 
@@ -92,8 +100,9 @@ def create_question():
     quizes = get_quizes()
     return render_template("create_question.html", quizes_list=quizes)
 
-
-
+@app.route("/all-result")
+def all_results():
+    return render_template("all_results.html")
 
 
 

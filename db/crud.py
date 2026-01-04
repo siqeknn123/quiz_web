@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_NAME = 'db\quizes.db'
+DB_NAME = 'quizes.db'
 conn = None
 cursor = None
 
@@ -38,6 +38,20 @@ def create_tables():
     question_id INTEGER,
     FOREIGN KEY (quiz_id) REFERENCES quiz (id),
     FOREIGN KEY (question_id) REFERENCES questions (id)
+    )''')
+    conn.commit()
+    close()
+
+def create_table_results():
+    open()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS results(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    name VARCHAR,
+    correct INTEGER,
+    wrong INTEGER,
+    total INTEGER,
+    quiz_id INTEGER
     )''')
     conn.commit()
     close()
@@ -167,11 +181,13 @@ def add_link(quiz_id: int, question_id: int) -> None:
     conn.commit()
     close()
 
-def main():
-    #create_tables()
-    #add_quizes()
-    #add_question()
-    #add_links()
-    pass
+def add_result(name, correct, wrong, total, quiz_id):
+    open()
+    cursor.execute('''INSERT INTO results (name, correct, wrong, total, quiz_id)
+    VALUES(?, ?, ?, ?, ?)''', [name, correct, wrong, total, quiz_id])
+    conn.commit()
+    close()
+
+
 
 
