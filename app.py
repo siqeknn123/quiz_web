@@ -14,7 +14,7 @@ def start_session(quiz_id):
     session['total'] = 0
 
 def question_form(question): # Функцфія яка перемішує питання
-    ''''''
+    '''Перемішуємо питання'''
     answers_list = [
         question[2],
         question[3],
@@ -56,23 +56,23 @@ def test():
             check_answer(question_id, selected_answer)
             session['last_question_id'] = question_id
 
-        new_question = get_question_after(session["quiz_id"], session['last_question_id'])
-        if new_question is None:
-            return redirect(url_for("result"))
-        else:
-            return question_form(new_question)
+        new_question = get_question_after(session["quiz_id"], session['last_question_id']) 
+        if new_question is None: # Якщо нема питань
+            return redirect(url_for("result")) # Перкидаємо на результати
+        else: # Якщо ні
+            return question_form(new_question) # Берем нове питання
         
     return "<h1>Test</h1>"
 
-@app.route("/result")
+@app.route("/result") # Сторінка результати
 def result():
-    correct = session['correct_ans']
-    wrong = session['wrong_ans']
-    total = session['total']
-    quiz_id = session['quiz_id']
-    name = session['name']
+    correct = session['correct_ans'] # Правильні відповіді
+    wrong = session['wrong_ans'] # Неправильні відповіді
+    total = session['total'] # Всього
+    quiz_id = session['quiz_id'] # Номер вікторини
+    name = session['name'] # Ім'я
     add_result(name, correct, wrong, quiz_id, total)
-    result = render_template("result.html",
+    result = render_template("result.html", # Берем шаблон і показуємо його
                            right=correct,
                            wrong=wrong,
                            total=total)
@@ -80,29 +80,29 @@ def result():
     return result
 
 
-@app.route("/create-quiz", methods=["GET", "POST"])
+@app.route("/create-quiz", methods=["GET", "POST"]) # Сторінка зробити вікторину
 def create_quiz():
-    if request.method == "POST":
-        quiz_name = request.form.get("quiz_name")
-        quiz_description = request.form.get("quiz_description")
-        create_quiz_db(quiz_name, quiz_description)
-        return redirect(url_for("index"))
-    return render_template("create_quiz.html")
+    if request.method == "POST": # якщо метот ПОСТ
+        quiz_name = request.form.get("quiz_name") # пишемо назву
+        quiz_description = request.form.get("quiz_description") # пишемо опис
+        create_quiz_db(quiz_name, quiz_description) # функція створити вікторину в базу даних
+        return redirect(url_for("index")) # Переносимо користовуча на голову сторінку
+    return render_template("create_quiz.html") # Виводимо шаблон
 
-@app.route("/create-question", methods=["GET", "POST"])
+@app.route("/create-question", methods=["GET", "POST"]) # Сторінка зроибити питання
 def create_question():
-    if request.method == "POST":
-        quiz_id = request.form.get("quiz_id")
-        question = request.form.getlist("question[]")
-        question_id= create_question_by_quiz(question)
-        add_link(quiz_id, question_id)
-        return redirect(url_for('index'))
-    quizes = get_quizes()
+    if request.method == "POST": # Якщо метод пост
+        quiz_id = request.form.get("quiz_id") # беремо вікторину айди
+        question = request.form.getlist("question[]") # беремо спмсок питаннянь
+        question_id= create_question_by_quiz(question) # робимо айди запитання
+        add_link(quiz_id, question_id) # робимо связку питання и вікторину
+        return redirect(url_for('index')) # кидаємо користовуча на головну сторінку
+    quizes = get_quizes() # беремо вікторину
     return render_template("create_question.html", quizes_list=quizes)
 
-@app.route("/all-result")
-def all_results():
-    results = get_all_results()
+@app.route("/all-result") # робимо сторінку результатів
+def all_results(): 
+    results = get_all_results() # беремо всі дані з бази даних
     return render_template("all_results.html", results=results)
 
 
