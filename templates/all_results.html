@@ -14,16 +14,18 @@
         </tr>
     </thead>
     <tbody>
+        {% for row in results %}
         <tr>
-            <th scope="row">id</th>
-            <td>date time</td>
-            <td>name</td>
-            <td>correct</td>
-            <td>wrong</td>
-            <td>total</td>
-            <td>quiz_id</td>
+            <th scope="row">{{ row[0] }}</th>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
 
         </tr>
+        {% endfor %}
     </tbody>
 </table>
 {% endblock %}

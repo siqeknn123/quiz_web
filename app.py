@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from db.crud import get_quizes, get_question_after, check_right_answer, create_quiz_db, create_question_by_quiz, add_link, create_table_results, add_result
+from db.crud import get_quizes, get_question_after, check_right_answer, create_quiz_db, create_question_by_quiz, add_link, create_table_results, add_result, get_all_results
 from random import shuffle
 
 app = Flask(__name__)
@@ -13,7 +13,7 @@ def start_session(quiz_id):
     session['wrong_ans'] = 0
     session['total'] = 0
 
-def question_form(question):
+def question_form(question): # Функцфія яка перемішує питання
     ''''''
     answers_list = [
         question[2],
@@ -24,14 +24,14 @@ def question_form(question):
     shuffle(answers_list)
     return render_template("test.html", question_id=question[0], quest=question[1], ans_list=answers_list)
 
-def check_answer(question_id, selected_answer):
-    if check_right_answer(question_id, selected_answer):
+def check_answer(question_id, selected_answer): # Перевіряє відповідь
+    if check_right_answer(question_id, selected_answer): # Перевіряє чи правильна відповідь
         session["correct_ans"] += 1
     else:
         session["wrong_ans"] += 1
     session["total"] +=1
 #Головна сторінка
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST']) # Створюємо головну сторінку
 def index():
     if request.method == "GET": # якщо метод GET
         quizes = get_quizes() # отримуємо вікторини з БД
@@ -45,13 +45,13 @@ def index():
         return redirect(url_for('test')) # перенаправлення на test
 
 # сторінка з тестуванням
-@app.route("/test", methods=["GET", "POST"])
+@app.route("/test", methods=["GET", "POST"]) # Створюємо сторінку де ми проходимо вікторину
 def test():
-    if not ("quiz_id" in session) or int(session['quiz_id']) < 0 :
-        return redirect(url_for("index"))
+    if not ("quiz_id" in session) or int(session['quiz_id']) < 0 : # Перевіряємо чи є сесія
+        return redirect(url_for("index")) # Переводомо користовуча на головну сторінку
     else:
-        if request.method == "POST":
-            selected_answer = request.form.get("ans")
+        if request.method == "POST":  # якщо метод POST
+            selected_answer = request.form.get("ans") 
             question_id = int(request.form.get("quest_id"))
             check_answer(question_id, selected_answer)
             session['last_question_id'] = question_id
@@ -102,7 +102,8 @@ def create_question():
 
 @app.route("/all-result")
 def all_results():
-    return render_template("all_results.html")
+    results = get_all_results()
+    return render_template("all_results.html", results=results)
 
 
 

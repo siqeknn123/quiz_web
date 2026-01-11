@@ -188,6 +188,11 @@ def add_result(name, correct, wrong, total, quiz_id):
     conn.commit()
     close()
 
-
-
-
+def get_all_results():
+    open()
+    cursor.execute('''SELECT id, date_time, name, correct, wrong, total, quiz_id
+        FROM results''')
+    results = cursor.fetchall()
+    conn.commit()
+    close()
+    return results
